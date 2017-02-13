@@ -1,0 +1,32 @@
+extends layout
+
+block content
+    h3 Пользователи
+    h4 Кол-во = 
+        span(data-bind='text:users().length')
+
+    div.row
+        div.col-md-3
+            div(data-bind='foreach:users').list-group
+                a(data-bind='css: {active: isSelected},click: function(data, event){ $root.setCurUser(data);}, clickBubble: false', href='#').list-group-item
+                    div.row
+                        div.col-md-2: img(data-bind='attr: {src: profile.avatar()}' style="width:50px;height:50px;").img-rounded
+                        div.col-md-10
+                            div.row: div.col-md-12: div(data-bind='text:info')
+                            div.row: div.col-md-12: span(data-bind='visible:botName, click: function(data, event){ $root.openChat(data);}, clickBubble: false').pull-right: i.glyphicon.glyphicon-comment 
+        div.col-md-9
+            div(data-bind='visible:socket').chat_window
+                div.top_menu
+                    div.title Сообщения
+                ul#messages(data-bind="foreach:messages").messages
+                    li(data-bind="template:{name:'message-template', data: $data}, css: {left: isUserMessage, right:!isUserMessage()}").message.appeared
+                div.bottom_wrapper.clearfix
+                    div.message_input_wrapper: input(placeholder='Пишите тут...', data-bind='value: $root.msgText').message_input
+                    div(data-bind='click: function(d,e){$root.sendMessage();}').send_message
+                        div.icon
+                        div.text Отправить
+    script(type='text/html', id='message-template')
+        div.avatar: img(data-bind='attr: {src: ($root.curUser && isUserMessage() ? $root.curUser.profile.avatar(): "https://raw.githubusercontent.com/devrelv/drop/master/151-icon.png")}')    
+        div.text_wrapper
+            div(data-bind='text: message').text
+    script(type='text/javascript' src='/web/javascripts/uservm.js')

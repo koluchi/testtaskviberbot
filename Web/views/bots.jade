@@ -1,0 +1,33 @@
+extends layout
+
+block content
+    h3 Боты
+    h4 Кол-во = 
+        span(data-bind='text:bots().length')
+    table.table.table-striped.table-bordered
+        thead
+            tr
+                th Название
+                th Паблик акаунт токен
+                th Webhook URL
+        tbody(data-bind='foreach: bots')
+            tr
+                td(data-bind='text: name')
+                td(data-bind='text: paToken')
+                td(data-bind='text: webhookURL')
+    form(data-bind='with: newBot').form-inline
+        div.form-group 
+            label(for='newBotName') Название
+            input#newBotName(type='text' placeholder='Новый бот' data-bind='value: name').form-control
+        div.form-group 
+            label(for='newBotPAToken') Токен
+            input#newBotPAToken(type='text' placeholder='Токен' data-bind='value: paToken').form-control
+        div.form-group 
+            label(for='newBotWHURL') Webhook URL
+            input#newBotWHURL(type='text' placeholder='URL' data-bind='value: webhookURL').form-control
+        button(type='button' data-bind='click:$root.create').btn.btn-primary Создать
+    p
+    div(data-bind="visible:errMsg")
+        div(data-bind='text:errMsg' role="alert").alert.alert-danger
+        
+    script(type='text/javascript' src='/web/javascripts/botvm.js')
