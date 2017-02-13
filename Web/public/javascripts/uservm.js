@@ -93,16 +93,10 @@ App.viewModel = (function(ko){
 
     var scrollToBottom = function(id){
         var elem = document.getElementById(id);
-        /*elem.animate([
-            {scrollTop: scrollHeight - clientHeight}
-        ],{
-            duration: 800
-        });
-        */
         var top = elem.scrollHeight - elem.clientHeight;
         $(elem).stop().animate({
                 scrollTop: top
-        }, 800);
+        }, 200);
         
     }
 
